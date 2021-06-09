@@ -119,6 +119,11 @@ def create_visit():
     return redirect(url_for('main.visitinfo'))
 
 
+@main.route('/generate_report', methods=['POST'])
+def generate_report():
+    return redirect(url_for('main.report'))
+
+
 app = create_app()  # we initialize our flask app using the __init__.py function
 if __name__ == '__main__':
     db.create_all(app=create_app())  # create the SQLite databaseScipts
