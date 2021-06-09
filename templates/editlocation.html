@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="Modify Location">
+        Welcome, {{name}}! </h1>
+    <h1 class="title">Select Location to Modify</h1>
+    
+        <br>
+<form method="POST" action="{{ url_for('main.modify_location') }}">
+    <div class="box" is="medium">
+                        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <div class="select is-fullwidth">
+            <label for="locations">Choose a location:</label>
+            Choose a Location<SELECT name="locations" id = "locations">
+            {% for location in locationList %}
+                <OPTION value={{location.id}}>{{location.name}}</option>
+            {% endfor %}
+            </SELECT>
+            <!-- <select name="locations" id="location">
+                <option value="walmart">Walmart</option>
+                <option value="rite aid">Rite Aid</option>
+                <option value="parking lot">Parking Lot</option>
+                <option value="library">Library</option>
+            </select> -->
+        </div>
+        <br>
+        <br>
+        <label class="label">Location's Probability</label>
+            <input class="input is-medium" type="number" name="percentage" placeholder="percentage" autofocus="">
+        <br><br>
+        <button class="button is-rounded is-danger is-dark is-medium ">Save Information</button>
+        <br>
+    </div>
+    </div>
+</form>
+
+{% endblock %}

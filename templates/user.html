@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="User Page">
+        Welcome, {{name}} and {{email}}
+    </h3>
+    <h1 class="title">COVID-19 Tracker</h1>
+    <div>
+        <br>
+        Successfully logged in as {{name}} and {{email}}
+        <br>
+        <br>
+            <form action="{{ url_for('main.visitinfo') }}">
+            <button class="button is-rounded is-link is-dark is-medium ">Enter Visit Information</button>
+            </form>
+        <br>
+        <br>
+            <form action="{{ url_for('main.report') }}">
+            <button class="button is-rounded is-link is-dark is-medium ">Generate Report</button>
+            </form>
+        <br>
+    </div>
+
+{% endblock %}

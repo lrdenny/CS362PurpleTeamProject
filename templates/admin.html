@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="Admin Page">
+        Welcome, {{name}}! Admin Testing Page!
+    </h3>
+    <h1 class="title">COVID-19 Tracker</h1>
+    <div>
+        <br>
+        Successfully logged in as admin
+        <br>
+        <br>
+            <form action="{{ url_for('main.edituser') }}">
+            <button class="button is-rounded is-danger is-dark is-medium ">Set User COVID-19 Status</button>
+            </form>
+        <br>
+        <br>
+            <form action="{{ url_for('main.editlocation') }}">
+            <button class="button is-rounded is-danger is-dark is-medium ">Modify Location Information</button>
+            </form>
+        <br>
+    </div>
+
+{% endblock %}

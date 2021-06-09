@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="User-Visit Information">
+        Welcome, {{name}}!
+    </h3>
+    <h1 class="title">COVID-19 Tracker</h1>
+    <div>
+        <br>
+        Successfully logged in as {{name}}
+        <br>
+        <br>
+        <form method="POST" action="{{ url_for('main.create_visit') }}">
+        <div class="box" is="medium">
+                                    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <div class="select is-fullwidth">
+            <label for="locations">Choose a location:</label>
+            Choose a Location<SELECT name="locations" id = "locations">
+            {% for location in locationList %}
+                <OPTION value={{location.id}}>{{location.name}}</option>
+            {% endfor %}
+            </SELECT>
+        </div>
+        <br>
+        <br>
+        <label class="label">Date of Visit</label>
+            <input class="input is-medium" type="date" name="dateChoice" data-date-format="dd/mm/yyyy">
+
+        <label class="label">Time of Visit</label>
+            <input class="input is-medium" type="time" name="timeChoice">
+        <br><br>
+        <button class="button is-rounded is-danger is-dark is-medium ">Submit Visit</button>
+        <br>
+    </div>
+        </form>
+    </div>
+
+{% endblock %}
