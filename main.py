@@ -101,6 +101,7 @@ def modify_location():
     return redirect(url_for('main.editlocation'))
 
 
+# Creates a new visit.
 @main.route('/create_visit', methods=['POST'])
 def create_visit():
     locationInput = request.form.get('locations')
