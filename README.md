@@ -9,6 +9,6 @@ This project was developed for the CS 362 (Spring 2021) course at Eastern Oregon
 - Syler Rimbach
 ## Credits
 **Login Inspired By: User "Elfao" From Medium**<br/>
-https://medium.com/analytics-vidhya/creating-login-page-on-flask-9d20738d9f42
+https://medium.com/analytics-vidhya/creating-login-page-on-flask-9d20738d9f42<br/>
 **CSS Framework**<br/>
 Bulma (https://bulma.io/)
