@@ -1,34 +1,65 @@
-########################################################################
-#################        Importing packages      #######################
-########################################################################
+# CS 362 Purple Team Project @ Eastern Oregon University
+# ---
+# This project was developed for the CS 362 (Spring 2021) course at Eastern Oregon University
+# by "Purple Team" to simulate a basic web application that can work with a database to track
+# the "spread" of COVID-19 in the city of La Grande, OR. This is accomplished using the Flask
+# web framework, as well as sqlite and SQLAlchemy for the database.
+# ---
+# Members:
+#  - Richard Duck
+#  - Lawson Denny
+#  - Michael Hefley
+#  - Syler Rimbach
+
+# --- IMPORTS ---
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 
-# init SQLAlchemy so we can use it later in our models
+# Associates Database w/ SQLAlchemy
 db = SQLAlchemy()
+
+
+# --- create_app ---
+# Description: This function creates the initial aspects of the application, and is needed for all other code to run.
 def create_app():
-    app = Flask(__name__) # creates the Flask instance, __name__ is the name of the current Python module
-    app.config['SECRET_KEY'] = 'secret-key-goes-here' # it is used by Flask and extensions to keep data safe
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite' #it is the path where the SQLite databaseScipts file will be saved
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # deactivate Flask-SQLAlchemy track modifications
-    db.init_app(app) # Initialiaze sqlite databaseScipts
-    # The login manager contains the code that lets your application and Flask-Login work together
-    login_manager = LoginManager() # Create a Login Manager instance
-    login_manager.login_view = 'auth.login' # define the redirection path when login required and we attempt to access without being logged in
-    login_manager.init_app(app) # configure it for login
+
+    # Instantiates the Web Application
+    app = Flask(__name__)
+
+    # Recommend but Unused
+    app.config['SECRET_KEY'] = 'secret-key-goes-here'
+
+    # Database Location
+    app.config[
+        'SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+
+    # Recommended SQLAlchemy Setting
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # Instantiates the database for future use.
+    db.init_app(app)
+
+    # Initializes and begins to work with the Flask LoginManager utility.
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    # Accesses User 'Table'
     from models import User
 
+    # --- load_user ---
+    # Description: Restores the user if their login was saved.
     @login_manager.user_loader
-    def load_user(user_id): #reload user object from the user ID stored in the session
-        # since the user_id is just the primary key of our user table, use it in the query for the user
+    def load_user(user_id):
         return User.query.get(int(user_id))
-    # blueprint for auth routes in our app
-    # blueprint allow you to orgnize your flask app
+
+    # Sets up the authentication blueprint.
     from auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
-    # blueprint for non-auth parts of app
+
+    # Sets up the blueprint for the general portions of the app.
     from main import main as main_blueprint
     app.register_blueprint(main_blueprint)
     return app

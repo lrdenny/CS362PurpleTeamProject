@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="column is-4 is-offset-4">
     <h3 class="Admin Page">
-        Welcome, {{name}}! Admin Testing Page!
     </h3>
-    <h1 class="title">COVID-19 Tracker</h1>
+    <h1 class="title">COVID-19 Tracker Admin Panel</h1>
+    <div class="box" is="medium">
     <div>
-        <br>
-        Successfully logged in as admin
         <br>
         <br>
             <form action="{{ url_for('main.edituser') }}">
@@ -20,5 +19,7 @@
             </form>
         <br>
     </div>
+    </div>
+</div>
 
 {% endblock %}

@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3 class="Modify User">
-        Welcome, {{name}}! Modify User Status!
-    </h3>
+    <h3 class="Modify User"></h3>
     <h1 class="title">Select User to Modify</h1>
     
     <br>
+ <div class="column is-4 is-offset-4">
     <form method="POST" action="{{ url_for('main.modify_user') }}">
     <div class="box" is="medium">
                 {% with messages = get_flashed_messages() %}
@@ -22,7 +21,8 @@
             <br>
             <label class="checkbox">
             <input type="checkbox" name="infectionStatus">
-            If checked, they are positive for COVID. Uncheck if they/you aren't positive.
+            <br>
+            If checked, they are positive for COVID. <br> Uncheck if they aren't positive.
             </label>
         <div>
             <br>
@@ -30,7 +30,8 @@
 
             <br>
         </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 
 {% endblock %}

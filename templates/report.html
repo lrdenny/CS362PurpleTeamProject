@@ -1,36 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="column is-4 is-offset-4">
     <h3 class="Visit Report">
-        Welcome, {{name}}!
     </h3>
-    <h1 class="title">COVID-19 Tracker</h1>
+    <h1 class="title">Report Generator</h1>
     <div>
-        <form method="POST" action="{{ url_for('main.generate_report') }}">
         <div class="box" is="medium">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="notification is-danger">
-                    {{ messages[0] }}
-                </div>
-            {% endif %}
-        {% endwith %}
-            <br>
-            <br>
-            <div class="box" is="medium">    
-            Here's some
-            <br>
-            Stuff
-            <br>
-            in
-            <br>
-            a
-            <br>
-            report
-                <button class="button is-rounded is-danger is-dark is-medium ">Submit Visit</button>
-                </div>
+            <form method="get" action="https://replit.com/@eouHefleyM/Yessir" target="_blank">
+                <h1 class="title">Infection Possibility: 22%</h1>
+                <p><b>Safeway Infection Rate: 22%</b></p>
+                <p><b>User 'yoselinsparks' is infected with COVID-19.</b></p>
+                <p><b>User 'andremarsh' visited Safeway @ 8:15 AM</b></p>
+                <p><b>User 'arnavmosley' visited Safeway @ 10:00 AM</b></p>
+                <p><b>User 'yoselinsparks' visited Safeway @ 12:00 PM</b></p>
+                <p><b>You visited Safeway @ 1:00 PM</b></p>
+                <br>
+                <button class="button is-rounded is-danger is-dark is-medium ">View Replit Project</button>
+            </form>
         </div>
-        </form>
     </div>
-
+</div>
 {% endblock %}

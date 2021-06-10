@@ -1,3 +1,5 @@
+-- Created for populating the Location table used in the project.
+
 INSERT INTO location (name,probability) VALUES ('Safeway',16);
 INSERT INTO location (name,probability) VALUES ('Dutch Bros',80);
 INSERT INTO location (name,probability) VALUES ('Ace Hardware',86);

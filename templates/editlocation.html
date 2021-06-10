@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class="Modify Location">
-        Welcome, {{name}}! </h1>
-    <h1 class="title">Select Location to Modify</h1>
+    <h1 class="Modify Location"></h1>
+    <h1 class="title">Select A Location to Modify</h1>
     
         <br>
-<form method="POST" action="{{ url_for('main.modify_location') }}">
-    <div class="box" is="medium">
-                        {% with messages = get_flashed_messages() %}
+        <div class="column is-4 is-offset-4">
+            <form method="POST" action="{{ url_for('main.modify_location') }}">
+                <div class="box" is="medium">
+                    {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="notification is-danger">
                     {{ messages[0] }}
@@ -22,12 +22,6 @@
                 <OPTION value={{location.id}}>{{location.name}}</option>
             {% endfor %}
             </SELECT>
-            <!-- <select name="locations" id="location">
-                <option value="walmart">Walmart</option>
-                <option value="rite aid">Rite Aid</option>
-                <option value="parking lot">Parking Lot</option>
-                <option value="library">Library</option>
-            </select> -->
         </div>
         <br>
         <br>
@@ -36,8 +30,7 @@
         <br><br>
         <button class="button is-rounded is-danger is-dark is-medium ">Save Information</button>
         <br>
-    </div>
-    </div>
-</form>
-
+        </div>
+    </form>
+</div>
 {% endblock %}

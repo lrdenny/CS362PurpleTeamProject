@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<section class="hero is-fullheight" style="background-color:#fed8b1;">
+<section class="hero is-fullheight" style="background-color:#7851a9;">
 
     <div class="hero-head">
         <nav class="navbar">
@@ -18,22 +18,21 @@
 
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
-                        {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('main.user') }}" class="navbar-item">
-                                User Action Page
-                        </a>
-                        {% endif %}
                         {% if current_user.admin == 1 %}
                         <a href="{{ url_for('main.admin') }}" class="navbar-item">
                             Admin
                         </a>
                         {% endif %}
+                        {% if current_user.is_authenticated == false%}
                         <a href="{{ url_for('main.index') }}" class="navbar-item">
                             Home
                         </a>
+                        {% endif %}
                         {% if current_user.is_authenticated %}
+                            {% if current_user.admin == 0 %}
                         <a href="{{ url_for('main.profile') }}" class="navbar-item">
                             Profile
+                            {% endif %}
                         </a>
                         {% endif %}
                         {% if not current_user.is_authenticated %}

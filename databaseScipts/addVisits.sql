@@ -1,3 +1,5 @@
+-- Created for populating the Visit table used in the project.
+
 INSERT INTO visit (userID,locationID,timestamp) VALUES (26,9,'2019-03-11 18:10');
 INSERT INTO visit (userID,locationID,timestamp) VALUES (25,10,'2019-07-26 10:47');
 INSERT INTO visit (userID,locationID,timestamp) VALUES (96,6,'2019-02-03 19:41');

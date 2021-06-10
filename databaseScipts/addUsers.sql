@@ -1,3 +1,5 @@
+-- Created for populating the User table used in the project.
+
 INSERT INTO user (username,password,infected,admin) VALUES ('admin','admin',0,1);
 
 INSERT INTO user (username,password,key,infected) VALUES ('vincentdonovan','oawhlzv','cwffrixuod',1);
