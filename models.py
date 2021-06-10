@@ -8,8 +8,7 @@ from __init__ import db
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
-    key = db.Column(db.String(100))
+    password = db.Column(db.String(1000))
     infected = db.Column(db.Integer, default=0)
     admin = db.Column(db.Integer, default=0)
 

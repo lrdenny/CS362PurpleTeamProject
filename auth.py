@@ -28,9 +28,13 @@ def login(): # define login page fucntion
         if not user:
             flash('Please sign up before!')
             return redirect(url_for('auth.signup'))
-        elif not user.password == password:
+        if user.password.startswith('pbkdf2'):
+            if not check_password_hash(user.password, password):
+                flash('Please check your login details and try again.')
+                return redirect(url_for('auth.login'))  # if the user doesn't exist or password is wrong, reload the page
+        elif user.password != password:
             flash('Please check your login details and try again.')
-            return redirect(url_for('auth.login')) # if the user doesn't exist or password is wrong, reload the page
+            return redirect(url_for('auth.login'))  # if the user doesn't exist or password is wrong, reload the page
         # if the above check passes, then we know the user has the right credentials
         login_user(user, remember=remember)
         if (user.admin == 1):
@@ -51,11 +55,12 @@ def signup(): # define the sign up function
             flash('Email address already exists')
             return redirect(url_for('auth.signup'))
         # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-        new_user = User(username=username, password=password, key=password) #
+        new_user = User(username=username, password=generate_password_hash(password))
         # add the new user to the databaseScipts
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('auth.login'))
+
 
 @auth.route('/logout') # define logout path
 @login_required

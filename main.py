@@ -5,8 +5,12 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, session
 from flask_login import login_required, current_user
+#from matplotlib import pyplot as plt
+
 from __init__ import create_app, db
 from flask import Flask
+# import matplotlib.pyplot as plt
+import networkx as nx
 from flask_login import LoginManager
 from flask_wtf import FlaskForm
 
@@ -63,6 +67,7 @@ def visitinfo():
 
 @main.route('/report')  # regular report page
 def report():
+    # generate_report()
     return render_template('report.html')
 
 
@@ -121,6 +126,68 @@ def create_visit():
 
 @main.route('/generate_report', methods=['POST'])
 def generate_report():
+    infectedUser = ""
+    G = nx.Graph()
+    lastVisit = Visit.query.filter_by(userID=current_user.id).order_by(Visit.id.desc()).first()
+    date = datetime.strptime(lastVisit.timestamp[:-6], '%Y-%m-%d')
+    list = Visit.query.filter(Visit.timestamp.contains(str(date.date()))).all()
+    for x in range(len(list)):
+        # print(list[x].username, " is going to ", list[x].location)
+        currentUser = User.query.filter_by(id=list[x].userID).first()
+        if currentUser.infected == 1:
+            infectedUser = currentUser.username
+        for y in range(x + 1, len(list)):
+            innerUser = User.query.filter_by(id=list[y].userID).first()
+            if innerUser.username and currentUser.username:
+                if (list[x].locationID == list[y].locationID) and (
+                        G.get_edge_data(innerUser.username, innerUser.username, default=0) == 0):
+                    G.add_edge(currentUser.username, innerUser.username,
+                               weight=(Location.query.filter_by(id=list[x].locationID)).probability)
+                elif (Location.query.filter_by(id=list[x].locationID).first()).probability < \
+                        (G[currentUser.username][innerUser.username]["weight"]):
+                    G[currentUser.username][innerUser.username]["weight"] = \
+                        (Location.query.filter_by(id=list[x].locationID)).probability
+
+    print("The infected user is ", infectedUser)
+
+    for i in range(len(list)):
+        currentUser = User.query.filter_by(id=list[x].userID).first()
+        if list[i].username != infectedUser:
+            shortest_path = nx.dijkstra_path(G, currentUser.username, infectedUser)
+            infectionProb = 1.0
+
+            for x in range(len(shortest_path) - 1):
+                infectionProb *= (G[shortest_path[x]][shortest_path[x + 1]]["weight"]) / 100.0
+
+            print(currentUser.username, " has an infection probability of ", round(infectionProb, 4) * 100, "%")
+
+        else:
+            print("The infected user has no shortest path")
+
+    elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] > .5]
+    esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] <= .5]
+
+    pos = nx.spring_layout(G)  # positions for all nodes
+
+    # nodes
+    nx.draw_networkx_nodes(G, pos, node_size=700)
+
+    # edges
+    nx.draw_networkx_edges(G, pos, edgelist=elarge, width=4)
+    nx.draw_networkx_edges(
+        G, pos, edgelist=esmall, width=4, alpha=0.5, edge_color="b", style="dashed"
+    )
+
+    # labels
+    nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
+    labels = nx.get_edge_attributes(G, "weight")
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+
+    from matplotlib import pyplot as plt
+    plt.axis("off")
+    plt.savefig("path.png")
+    plt.show()
+
     return redirect(url_for('main.report'))
 
 
